@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Stable-Baselines3 / RL Artefakte
+models/
+logs/
+tensorboard/
+*.zip
+
+# Plots & Outputs
+plots/
+results/
+*.png
+*.pdf
+*.csv
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
