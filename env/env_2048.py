@@ -19,6 +19,9 @@ class Env2048(gym.Env):
         self.board = np.zeros((self.width, self.height), dtype=np.int32)
         self.score = 0
 
+        self.add_tile_at_random_empty_position(2)
+        self.add_tile_at_random_empty_position(2)
+
     def add_tile_at_random_empty_position(self, value: int):
         x, y = np.where(self.board == 0)
 
