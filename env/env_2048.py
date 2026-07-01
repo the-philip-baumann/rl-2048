@@ -62,7 +62,7 @@ class Env2048(gym.Env):
     def move_left(self, board=None):
         if board is None:
             board = self.board
-            
+
         temp_board = [row[row != 0] for row in board]
 
         for row in temp_board:
@@ -72,6 +72,7 @@ class Env2048(gym.Env):
                 if row[i] == row[i + 1]:
                     row[i] = row[i] * 2
                     row[i + 1] = 0
+                    self.score += row[i] + row[i + 1]
 
         temp_board = [row[row != 0] for row in temp_board]
 

@@ -360,3 +360,32 @@ class TestEnv2048:
         assert actual[1][0] == 8
         assert actual[2][0] == 8
         assert actual[3][0] == 8
+
+    def test_move_left__update_score_after_merge(self, env):
+        expected_score = 4
+        env.board[0][0] = 2
+        env.board[0][1] = 2
+
+        env.move_left()
+
+        assert env.score == expected_score
+
+    def test_move_left__update_score_after_multiple_merges(self, env):
+        expected_score = 12
+        env.board[0][0] = 2
+        env.board[0][1] = 2
+        env.board[1][2] = 4
+        env.board[1][3] = 4
+
+        env.move_left()
+
+        assert env.score == expected_score
+
+    def test_move_right__no_score_update_after_merge(self, env):
+        expected_score = 0
+        env.board[0][2] = 4
+        env.board[0][3] = 2
+
+        env.move_right()
+
+        assert env.score == expected_score
