@@ -44,24 +44,39 @@ class Env2048(gym.Env):
         coordinate = coordinates[index]
         self.board[coordinate] = value
 
+    def act(self, action: Actions):
+        if action == Actions.LEFT:
+            self.board, delta_score = self.move_left()
+        elif action == Actions.RIGHT:
+            self.board, delta_score = self.move_right()
+        elif action == Actions.UP:
+            self.board, delta_score = self.move_up()
+        elif action == Actions.DOWN:
+            self.board, delta_score = self.move_down()
+        else:
+            raise ValueError(f"Invalid action: {action}")
+        return delta_score
+
     def move_right(self):
         temp_board = np.rot90(self.board, k=2)
-        temp_board = self.move_left(temp_board)
-        return np.rot90(temp_board, k=2)
+        temp_board, score_delta = self.move_left(temp_board)
+        return np.rot90(temp_board, k=2), score_delta
     
     def move_up(self):
         temp_board = np.rot90(self.board, k=1)
-        temp_board = self.move_left(temp_board)
-        return np.rot90(temp_board, k=-1)
+        temp_board, score_delta = self.move_left(temp_board)
+        return np.rot90(temp_board, k=-1), score_delta
     
     def move_down(self):
         temp_board = np.rot90(self.board, k=-1)
-        temp_board = self.move_left(temp_board)
-        return np.rot90(temp_board, k=1)
+        temp_board, score_delta = self.move_left(temp_board)
+        return np.rot90(temp_board, k=1), score_delta
 
     def move_left(self, board=None):
         if board is None:
             board = self.board
+
+        temp_score = self.score
 
         temp_board = [row[row != 0] for row in board]
 
@@ -76,16 +91,10 @@ class Env2048(gym.Env):
 
         temp_board = [row[row != 0] for row in temp_board]
 
-        return np.array([np.pad(row, (0, self.width - len(row))) for row in temp_board])
- 
-
+        return np.array([np.pad(row, (0, self.width - len(row))) for row in temp_board]), self.score - temp_score
    
     def _is_cell_touching_right_border(self,row, i):
         return i == len(row) - 1
-
-
-
-
 
 
     def render(self):
@@ -99,5 +108,3 @@ class Env2048(gym.Env):
                     else:
                         print(f"{column:>6}", end="|")
                 print("\n-----------------------------")
-                
-

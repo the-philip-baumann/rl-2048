@@ -36,7 +36,7 @@ class TestEnv2048:
         expected = 2
         env.board[0][3] = expected
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == expected
 
@@ -45,7 +45,7 @@ class TestEnv2048:
         env.board[0][2] = 2
         env.board[0][3] = 2
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == expected
 
@@ -54,7 +54,7 @@ class TestEnv2048:
         env.board[0][1] = 2
         env.board[0][3] = 2
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == expected
 
@@ -62,7 +62,7 @@ class TestEnv2048:
         env.board[0][2] = 2
         env.board[0][3] = 4
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == 2
         assert actual[0][1] == 4
@@ -72,7 +72,7 @@ class TestEnv2048:
         env.board[0][1] = 4
         env.board[0][3] = 2
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == 2
         assert actual[0][1] == 4
@@ -86,7 +86,7 @@ class TestEnv2048:
         env.board[0][2] = 2
         env.board[0][3] = 2
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == expected_first_merge 
         assert actual[0][1] == expected_second_merge
@@ -98,7 +98,7 @@ class TestEnv2048:
         env.board[0][2] = 4
         env.board[0][3] = 4
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == expected_merge
         assert actual[0][1] == expected_remaining
@@ -107,7 +107,7 @@ class TestEnv2048:
         expected = 2
         env.board[0][1] = expected
 
-        actual = env.move_right()
+        actual, _ = env.move_right()
 
         assert actual[0][3] == expected
 
@@ -116,7 +116,7 @@ class TestEnv2048:
         env.board[0][0] = 2
         env.board[0][2] = 2
 
-        actual = env.move_right()
+        actual, _ = env.move_right()
 
         assert actual[0][3] == expected
 
@@ -125,7 +125,7 @@ class TestEnv2048:
         env.board[0][0] = 2
         env.board[0][2] = 2
 
-        actual = env.move_right()
+        actual, _ = env.move_right()
 
         assert actual[0][3] == expected
 
@@ -133,7 +133,7 @@ class TestEnv2048:
         env.board[0][1] = 2
         env.board[0][2] = 4
 
-        actual = env.move_right()
+        actual, _ = env.move_right()
 
         assert actual[0][2] == 2
         assert actual[0][3] == 4
@@ -143,7 +143,7 @@ class TestEnv2048:
         env.board[0][1] = 4
         env.board[0][3] = 2
 
-        actual = env.move_right()
+        actual, _ = env.move_right()
 
         assert actual[0][1] == 2
         assert actual[0][2] == 4
@@ -157,7 +157,7 @@ class TestEnv2048:
         env.board[0][2] = 2
         env.board[0][3] = 2
 
-        actual = env.move_right()
+        actual, _ = env.move_right()
 
         assert actual[0][2] == expected_first_merge 
         assert actual[0][3] == expected_second_merge
@@ -169,7 +169,7 @@ class TestEnv2048:
         env.board[0][2] = 4
         env.board[0][3] = 4
 
-        actual = env.move_right()
+        actual, _ = env.move_right()
 
         assert actual[0][2] == expected_remaining
         assert actual[0][3] == expected_merge
@@ -178,7 +178,7 @@ class TestEnv2048:
         expected = 2
         env.board[3][1] = expected
 
-        actual = env.move_up()
+        actual, _ = env.move_up()
 
         assert actual[0][1] == expected
 
@@ -187,7 +187,7 @@ class TestEnv2048:
         env.board[1][2] = 2
         env.board[3][2] = 2
 
-        actual = env.move_up()
+        actual, _ = env.move_up()
 
         assert actual[0][2] == expected
 
@@ -196,7 +196,7 @@ class TestEnv2048:
         env.board[0][2] = 2
         env.board[2][2] = 2
 
-        actual = env.move_up()
+        actual, _ = env.move_up()
 
         assert actual[0][2] == expected
 
@@ -204,7 +204,7 @@ class TestEnv2048:
         env.board[1][2] = 2
         env.board[2][2] = 4
 
-        actual = env.move_up()
+        actual, _ = env.move_up()
 
         assert actual[0][2] == 2
         assert actual[1][2] == 4
@@ -214,7 +214,7 @@ class TestEnv2048:
         env.board[2][3] = 4
         env.board[3][3] = 2
 
-        actual = env.move_up()
+        actual, _ = env.move_up()
 
         assert actual[0][3] == 2
         assert actual[1][3] == 4
@@ -228,7 +228,7 @@ class TestEnv2048:
         env.board[2][0] = 2
         env.board[3][0] = 2
 
-        actual = env.move_up()
+        actual, _ = env.move_up()
 
         assert actual[0][0] == expected_first_merge 
         assert actual[1][0] == expected_second_merge
@@ -240,7 +240,7 @@ class TestEnv2048:
         env.board[2][2] = 4
         env.board[3][2] = 4
 
-        actual = env.move_up()
+        actual, _ = env.move_up()
 
         assert actual[1][2] == expected_remaining
         assert actual[0][2] == expected_merge
@@ -252,7 +252,7 @@ class TestEnv2048:
         expected = 2
         env.board[1][1] = expected
 
-        actual = env.move_down()
+        actual, _ = env.move_down()
 
         assert actual[3][1] == expected
 
@@ -261,7 +261,7 @@ class TestEnv2048:
         env.board[1][2] = 2
         env.board[2][2] = 2
 
-        actual = env.move_down()
+        actual, _ = env.move_down()
 
         assert actual[3][2] == expected
 
@@ -270,7 +270,7 @@ class TestEnv2048:
         env.board[0][2] = 2
         env.board[2][2] = 2
 
-        actual = env.move_down()
+        actual, _ = env.move_down()
 
         assert actual[3][2] == expected
 
@@ -278,7 +278,7 @@ class TestEnv2048:
         env.board[1][2] = 2
         env.board[2][2] = 4
 
-        actual = env.move_down()
+        actual, _ = env.move_down()
 
         assert actual[2][2] == 2
         assert actual[3][2] == 4
@@ -288,7 +288,7 @@ class TestEnv2048:
         env.board[2][3] = 4
         env.board[3][3] = 2
 
-        actual = env.move_down()
+        actual, _ = env.move_down()
 
         assert actual[1][3] == 2
         assert actual[2][3] == 4
@@ -302,7 +302,7 @@ class TestEnv2048:
         env.board[2][0] = 2
         env.board[3][0] = 2
 
-        actual = env.move_down()
+        actual, _ = env.move_down()
 
         assert actual[2][0] == expected_first_merge 
         assert actual[3][0] == expected_second_merge
@@ -314,7 +314,7 @@ class TestEnv2048:
         env.board[2][2] = 4
         env.board[3][2] = 4
 
-        actual = env.move_down()
+        actual, _ = env.move_down()
 
         assert actual[2][2] == expected_remaining
         assert actual[3][2] == expected_merge
@@ -326,7 +326,7 @@ class TestEnv2048:
         env.board[1][2] = 4
         env.board[1][3] = 4
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == 4
         assert actual[1][0] == 8
@@ -339,7 +339,7 @@ class TestEnv2048:
         env.board[0][2] = 8
         env.board[0][3] = 8
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == 4
         assert actual[1][0] == 8
@@ -354,7 +354,7 @@ class TestEnv2048:
         env.board[2][2] = 8
         env.board[3][3] = 8
 
-        actual = env.move_left()
+        actual, _ = env.move_left()
 
         assert actual[0][0] == 4
         assert actual[1][0] == 8
@@ -366,26 +366,30 @@ class TestEnv2048:
         env.board[0][0] = 2
         env.board[0][1] = 2
 
-        env.move_left()
+        _, _ = env.move_left()
 
         assert env.score == expected_score
 
     def test_move_left__update_score_after_multiple_merges(self, env):
         expected_score = 12
+        env.score = 8
         env.board[0][0] = 2
         env.board[0][1] = 2
         env.board[1][2] = 4
         env.board[1][3] = 4
 
-        env.move_left()
+        _, score_delta = env.move_left()
 
-        assert env.score == expected_score
+        assert env.score == 20
+        assert score_delta == expected_score
 
     def test_move_right__no_score_update_after_merge(self, env):
-        expected_score = 0
+        env.score = 4
+        expected_score = 4
         env.board[0][2] = 4
         env.board[0][3] = 2
+        env.board[1][0] = 2
 
-        env.move_right()
+        _, _ = env.move_right()
 
         assert env.score == expected_score
