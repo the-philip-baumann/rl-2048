@@ -44,8 +44,26 @@ class Env2048(gym.Env):
         coordinate = coordinates[index]
         self.board[coordinate] = value
 
-    def move_left(self):
-        temp_board = [row[row != 0] for row in self.board]
+    def move_right(self):
+        temp_board = np.rot90(self.board, k=2)
+        temp_board = self.move_left(temp_board)
+        return np.rot90(temp_board, k=2)
+    
+    def move_up(self):
+        temp_board = np.rot90(self.board, k=1)
+        temp_board = self.move_left(temp_board)
+        return np.rot90(temp_board, k=-1)
+    
+    def move_down(self):
+        temp_board = np.rot90(self.board, k=-1)
+        temp_board = self.move_left(temp_board)
+        return np.rot90(temp_board, k=1)
+
+    def move_left(self, board=None):
+        if board is None:
+            board = self.board
+            
+        temp_board = [row[row != 0] for row in board]
 
         for row in temp_board:
             for i in range(len(row) - 1):
