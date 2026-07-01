@@ -17,8 +17,8 @@ class Env2048(gym.Env):
         self.board = np.zeros((self.width, self.height), dtype=np.int32)
         self.score = 0
 
-        self.add_tile_at_random_empty_position(2)
-        self.add_tile_at_random_empty_position(2)
+        self.add_tile_at_random_empty_position()
+        self.add_tile_at_random_empty_position()
 
         self.metadata = {"render_modes": ["human"]}
         self.render_mode = render_mode if render_mode in self.metadata["render_modes"] else None
@@ -30,11 +30,14 @@ class Env2048(gym.Env):
         self.board = np.zeros((self.width, self.height), dtype=np.int32)
         self.score = 0
 
-        self.add_tile_at_random_empty_position(2)
-        self.add_tile_at_random_empty_position(2)
+        self.add_tile_at_random_empty_position()
+        self.add_tile_at_random_empty_position()
 
-    def add_tile_at_random_empty_position(self, value: int):
+    def add_tile_at_random_empty_position(self, value: int = None):
         x, y = np.where(self.board == 0)
+
+        if value is None:
+            value = 2 if np.random.rand() < 0.9 else 4
 
         if len(x) == 0 or len(y) == 0:
             raise ValueError("No empty positions available to add a tile.")
@@ -46,33 +49,33 @@ class Env2048(gym.Env):
 
     def act(self, action: Actions):
         if action == Actions.LEFT:
-            self.board, delta_score = self.move_left()
+            self.board, delta_score = self.move_left(False)
         elif action == Actions.RIGHT:
-            self.board, delta_score = self.move_right()
+            self.board, delta_score = self.move_right(False)
         elif action == Actions.UP:
-            self.board, delta_score = self.move_up()
+            self.board, delta_score = self.move_up(False)
         elif action == Actions.DOWN:
-            self.board, delta_score = self.move_down()
+            self.board, delta_score = self.move_down(False)
         else:
             raise ValueError(f"Invalid action: {action}")
         return delta_score
 
-    def move_right(self):
+    def move_right(self, dry_run=False):
         temp_board = np.rot90(self.board, k=2)
-        temp_board, score_delta = self.move_left(temp_board)
+        temp_board, score_delta = self.move_left(temp_board, dry_run=dry_run)
         return np.rot90(temp_board, k=2), score_delta
     
-    def move_up(self):
+    def move_up(self, dry_run=False):
         temp_board = np.rot90(self.board, k=1)
-        temp_board, score_delta = self.move_left(temp_board)
+        temp_board, score_delta = self.move_left(temp_board, dry_run=dry_run)
         return np.rot90(temp_board, k=-1), score_delta
     
-    def move_down(self):
+    def move_down(self, dry_run=False):
         temp_board = np.rot90(self.board, k=-1)
-        temp_board, score_delta = self.move_left(temp_board)
+        temp_board, score_delta = self.move_left(temp_board, dry_run=dry_run)
         return np.rot90(temp_board, k=1), score_delta
 
-    def move_left(self, board=None):
+    def move_left(self, board=None, dry_run=False):
         if board is None:
             board = self.board
 
@@ -87,12 +90,23 @@ class Env2048(gym.Env):
                 if row[i] == row[i + 1]:
                     row[i] = row[i] * 2
                     row[i + 1] = 0
-                    self.score += row[i] + row[i + 1]
+                    if not dry_run:
+                        self.score += row[i] + row[i + 1]
 
         temp_board = [row[row != 0] for row in temp_board]
 
         return np.array([np.pad(row, (0, self.width - len(row))) for row in temp_board]), self.score - temp_score
    
+    def is_terminated(self):
+        is_same_as_left = np.array_equal(self.move_left(dry_run=True)[0], self.board)
+        is_same_as_right = np.array_equal(self.move_right(dry_run=True)[0], self.board)
+        is_same_as_up = np.array_equal(self.move_up(dry_run=True)[0], self.board)
+        is_same_as_down = np.array_equal(self.move_down(dry_run=True)[0], self.board)
+        return is_same_as_left and is_same_as_right and is_same_as_up and is_same_as_down
+
+    def has_board_changed(self, previous_board):
+        return not np.array_equal(previous_board, self.board)
+
     def _is_cell_touching_right_border(self,row, i):
         return i == len(row) - 1
 

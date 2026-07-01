@@ -393,3 +393,57 @@ class TestEnv2048:
         _, _ = env.move_right()
 
         assert env.score == expected_score
+
+    def test_is_terminated__returns_true_when_no_moves_possible(self, env):
+        env.board = np.array([[2, 4, 2, 4],
+                              [4, 2, 4, 2],
+                              [2, 4, 2, 4],
+                              [4, 2, 4, 2]])
+
+        actual = env.is_terminated()
+
+        assert actual is True
+        assert env.score == 0
+
+    def test_is_terminated__returns_false_when_move_left_possible(self, env):
+        env.board = np.array([[2, 4, 2, 4],
+                              [4, 2, 4, 2],
+                              [2, 4, 2, 4],
+                              [8, 8, 4, 2]])
+
+        actual = env.is_terminated()
+
+        assert actual is False
+        assert env.score == 0
+
+    def test_is_terminated__returns_false_when_move_right_possible(self, env):
+        env.board = np.array([[2, 4, 2, 4],
+                              [4, 2, 4, 2],
+                              [2, 4, 2, 4],
+                              [4, 2, 8, 8]])
+
+        actual = env.is_terminated()
+
+        assert actual is False
+        assert env.score == 0
+
+    def test_is_terminated__returns_false_when_move_up_possible(self, env):
+        env.board = np.array([[2, 4, 2, 8],
+                              [4, 2, 4, 8],
+                              [2, 4, 2, 4],
+                              [4, 2, 4, 2]])
+
+        actual = env.is_terminated()
+
+        assert actual is False
+        assert env.score == 0
+
+    def test_is_terminated__returns_false_when_move_down_possible(self, env):
+        env.board = np.array([[2, 4, 2, 8],
+                              [4, 2, 4, 8],
+                              [2, 4, 2, 4],
+                              [4, 2, 4, 2]])
+        actual = env.is_terminated()
+         
+        assert actual is False
+        assert env.score == 0
